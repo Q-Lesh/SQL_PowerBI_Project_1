@@ -2,25 +2,19 @@
 View: vw_sales_enriched_v2
 
 Purpose:
-- Canonical sales fact table in EUR
+- Sales fact table in EUR
 - Base layer for forecast bias, inventory risk and cash impact analysis
 
 Key assumptions:
-- EUR is the reporting currency
 - Rows without valid exchange rate are excluded
-- Revenue and COGS are normalized to base currency
+- Revenue and COGS are normalized to base currency (EUR)
 
 Grain:
 - One row per order line (orderkey + linenumber)
-
-Owner:
-- Analytics / Decision Support
 */
 
 CREATE OR REPLACE VIEW public.vw_sales_enriched_v2
 AS WITH base_sales AS (
-    -- Raw sales enriched with safe FX rate
-    -- Handles missing or zero exchange rates defensively
          SELECT s.orderkey,
             s.linenumber,
             s.orderdate,
@@ -36,9 +30,9 @@ AS WITH base_sales AS (
             COALESCE(NULLIF(s.exchangerate::numeric, 0::numeric), NULLIF(ce.exchange::numeric, 0::numeric)) AS exchangerate_safe
            FROM sales s
              LEFT JOIN currencyexchange ce ON ce.date = s.orderdate AND ce.fromcurrency::text = s.currencycode::text AND ce.tocurrency::text = 'EUR'::text
-        ), finance AS (
-    -- Financial normalization to EUR
-    -- Computes net revenue and COGS in base currency
+        ), 
+    
+          finance AS (
         SELECT b.orderkey,
             b.linenumber,
             b.orderdate,
@@ -60,6 +54,7 @@ AS WITH base_sales AS (
            FROM base_sales b
           WHERE b.exchangerate_safe IS NOT NULL
         )
+    
  SELECT f.orderkey,
     f.linenumber,
     f.orderdate,

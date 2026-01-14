@@ -3,7 +3,6 @@ View: vw_forecast_baseline
 
 Purpose:
 - Create a baseline forecast vs actual at monthly grain (product x store x month)
-- Baseline is intentionally simple: last-month actual used as next-month forecast
 - Feeds downstream bias classification and business impact (cash frozen / lost revenue)
 
 Why this matters:
@@ -18,9 +17,6 @@ Key assumptions / limitations:
 - If forecast_qty is NULL (first month per product-store), row is excluded.
 - forecast_bias_pct uses forecast_qty as denominator (NULLIF to avoid divide-by-zero).
   Note: when forecast_qty = 0, bias_pct becomes NULL. Keep as-is to prevent misleading infinities.
-
-Owner:
-- Analytics / Decision Support
 */
 
 CREATE OR REPLACE VIEW public.vw_forecast_baseline AS

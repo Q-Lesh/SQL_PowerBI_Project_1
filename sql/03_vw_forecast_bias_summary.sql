@@ -3,7 +3,7 @@ View: vw_forecast_bias_summary
 
 Purpose:
 - Summarize forecast bias patterns per product x store
-- Identify systematic over- and under-forecasting behaviour
+- Identify systematic over- and under-forecasting behavior
 - Serve as the main input for inventory risk and cash impact analysis
 
 Business logic:
@@ -18,9 +18,6 @@ Key assumptions:
 - ±10% bias threshold reflects material planning deviation
 - A risk is considered "systematic" if it occurs in >= 60% of observed months
 - All months are weighted equally (no seasonality correction at this stage)
-
-Owner:
-- Analytics / Decision Support
 */
 
 CREATE OR REPLACE VIEW public.vw_forecast_bias_summary AS
