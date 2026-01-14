@@ -1,0 +1,23 @@
+# files
+*.pbix
+images/
+misc/
+
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+
+# Temporary / backup files
+*.tmp
+*.log
+*.bak
+~$*
+
+# Python / notebooks
+__pycache__/
+.ipynb_checkpoints/
+
+# VS Code local settings (optional)
+.vscode/
+
